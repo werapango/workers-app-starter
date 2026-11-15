@@ -33,7 +33,7 @@
 ## ส่วนที่ 2 — 👤 คนรันเองก่อนเริ่ม
 
 ```bash
-npm create cloudflare@latest my-app -- --type=hello-world-with-assets --lang=ts --no-deploy --no-git --no-agents
+npm create cloudflare@latest my-app -- --category=hello-world --type=hello-world-with-assets --lang=ts --no-deploy --no-git --no-agents
 cd my-app
 npm install hono
 git init

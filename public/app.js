@@ -2,6 +2,7 @@
 // โครง: 1 หน้า (index.html) แบ่งเป็นหลาย "view" สลับด้วย #hash ใน URL
 // วิธีเพิ่มหน้าของโจทย์: เพิ่ม <section id="view-xxx"> + เมนู <a href="#xxx"> ใน index.html
 //                        แล้วเพิ่มฟังก์ชันโหลดข้อมูลใน VIEWS ด้านล่าง
+//                        (หรือแยกเป็นไฟล์ใหม่ เช่น public/cars.js แล้วเขียน VIEWS.cars = loadCars)
 
 const $ = (sel, root = document) => root.querySelector(sel);
 let me = null; // ผู้ใช้ที่ล็อกอินอยู่ { id, username, role }
@@ -187,4 +188,5 @@ $("#passwordForm").addEventListener("submit", async (e) => {
   } catch (err) { say($(".msg", e.target), err.message); }
 });
 
-boot();
+// เริ่มหลังโหลดสคริปต์ทุกไฟล์ครบ (ไฟล์ของฟีเจอร์ที่แยกออกไปจะลงทะเบียนใน VIEWS ได้ทัน)
+document.addEventListener("DOMContentLoaded", boot);
