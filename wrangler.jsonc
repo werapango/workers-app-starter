@@ -1,0 +1,23 @@
+{
+  // ไฟล์ตั้งค่าของ Cloudflare Worker (อ่านโดยคำสั่ง wrangler)
+  "$schema": "node_modules/wrangler/config-schema.json",
+
+  // ชื่อ Worker = ส่วนหน้าของ URL  https://<name>.<subdomain>.workers.dev
+  // (คำสั่ง npm create cloudflare จะเปลี่ยนเป็นชื่อโฟลเดอร์ให้อัตโนมัติ)
+  "name": "my-app",
+
+  // ไฟล์โค้ดฝั่งเซิร์ฟเวอร์ (API)
+  "main": "src/index.ts",
+  "compatibility_date": "2025-11-01",
+
+  // ไฟล์หน้าเว็บ (HTML/CSS/JS) ในโฟลเดอร์ public/ ถูกเสิร์ฟให้เบราว์เซอร์โดยตรง
+  // คำขอที่ไม่ตรงกับไฟล์ใด (เช่น /api/...) จะถูกส่งต่อให้ src/index.ts
+  "assets": { "directory": "./public" },
+
+  // เปิด log ดูย้อนหลังได้ใน dashboard และด้วยคำสั่ง  npx wrangler tail
+  "observability": { "enabled": true }
+
+  // ⬇ ฐานข้อมูล: คำสั่ง
+  //     npx wrangler d1 create app-db --binding DB --update-config
+  //   จะเพิ่มส่วน "d1_databases" ในไฟล์นี้ให้เอง
+}

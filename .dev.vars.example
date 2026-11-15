@@ -1,0 +1,4 @@
+# ตัวแปรลับสำหรับรันในเครื่อง (wrangler dev) — คัดลอกไฟล์นี้เป็น .dev.vars แล้วแก้ค่า
+# .dev.vars ถูก .gitignore ไว้ ห้าม commit
+# บน production ใช้คำสั่ง  npx wrangler secret put <NAME>  แทน
+# (หลักสูตรนี้ยังไม่ต้องใช้ secret — ไฟล์นี้มีไว้ให้เห็นแนวปฏิบัติ)

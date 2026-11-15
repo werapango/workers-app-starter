@@ -1,0 +1,29 @@
+:root { --bg:#f8fafc; --card:#fff; --ink:#0f172a; --muted:#64748b; --line:#e2e8f0; --brand:#2563eb; --ok:#16a34a; --bad:#dc2626; }
+* { box-sizing: border-box; }
+body { margin: 0; font-family: system-ui, "Noto Sans Thai", sans-serif; background: var(--bg); color: var(--ink); line-height: 1.5; }
+header { background: var(--card); border-bottom: 1px solid var(--line); padding: 10px 16px; display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center; justify-content: space-between; }
+header h1 { font-size: 1.1rem; margin: 0; }
+nav { display: flex; flex-wrap: wrap; gap: 4px 12px; align-items: center; }
+nav a { color: var(--brand); text-decoration: none; }
+nav a.active { font-weight: 700; text-decoration: underline; }
+main { max-width: 760px; margin: 0 auto; padding: 16px; }
+.view { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 16px; }
+h2 { margin-top: 0; font-size: 1.2rem; }
+form { display: grid; gap: 10px; max-width: 420px; }
+form.row { display: flex; flex-wrap: wrap; max-width: none; }
+form.row > * { flex: 1 1 140px; }
+label { display: grid; gap: 2px; font-size: .9rem; color: var(--muted); }
+input, select, button { font: inherit; padding: 8px 10px; border: 1px solid var(--line); border-radius: 8px; }
+button { background: var(--brand); color: #fff; border: 0; cursor: pointer; }
+button.ghost { background: transparent; color: var(--brand); border: 1px solid var(--line); }
+button.danger { background: transparent; color: var(--bad); border: 1px solid var(--line); }
+table { width: 100%; border-collapse: collapse; margin-top: 8px; font-size: .95rem; }
+th, td { text-align: left; padding: 8px 6px; border-bottom: 1px solid var(--line); }
+td:last-child { white-space: nowrap; text-align: right; }
+.muted { color: var(--muted); font-size: .9rem; }
+.msg { min-height: 1.3em; margin: 0; font-size: .9rem; }
+.msg.ok { color: var(--ok); } .msg.bad { color: var(--bad); }
+.status { background: #f1f5f9; padding: 12px; border-radius: 8px; overflow-x: auto; }
+.status.ok { background: #dcfce7; } .status.bad { background: #fee2e2; }
+.hidden { display: none !important; }
+@media (max-width: 560px) { th:nth-child(3), td:nth-child(3) { display: none; } }

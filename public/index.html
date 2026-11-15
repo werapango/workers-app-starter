@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>แอปของฉัน</title>
+  <link rel="stylesheet" href="app.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <!-- หน้าเว็บนี้เป็น "client" — คุยกับ "server" (src/) ผ่าน HTTP ที่ /api/... เท่านั้น -->
+
+  <header>
+    <h1 id="appName">🚀 แอปของฉัน</h1>
+    <nav id="nav" class="hidden">
+      <a href="#home">หน้าหลัก</a>
+      <!-- ⬇ เมนูของฟีเจอร์ในโจทย์เพิ่มตรงนี้ เช่น <a href="#cars">รถ</a> -->
+      <a href="#users" data-admin>ผู้ใช้</a>
+      <a href="#password">เปลี่ยนรหัสผ่าน</a>
+      <span id="who" class="muted"></span>
+      <button id="logoutBtn" class="ghost">ออกจากระบบ</button>
+    </nav>
+  </header>
+
+  <main>
+    <!-- ── ตั้งค่าครั้งแรก: แสดงเมื่อระบบยังไม่มีผู้ใช้เลย ── -->
+    <section id="view-setup" class="view hidden">
+      <h2>ตั้งค่าครั้งแรก</h2>
+      <p class="muted">ระบบยังไม่มีผู้ใช้ สร้างบัญชี <b>ผู้ดูแลระบบ (admin)</b> คนแรกได้ที่นี่ — หน้านี้จะปิดตัวเองทันทีเมื่อสร้างเสร็จ</p>
+      <form id="setupForm">
+        <label>ชื่อผู้ใช้ <input name="username" required autocomplete="username"></label>
+        <label>รหัสผ่าน (อย่างน้อย 8 ตัว) <input name="password" type="password" required autocomplete="new-password"></label>
+        <button type="submit">สร้างผู้ดูแลระบบ</button>
+        <p class="msg"></p>
+      </form>
+    </section>
+
+    <!-- ── เข้าสู่ระบบ ── -->
+    <section id="view-login" class="view hidden">
+      <h2>เข้าสู่ระบบ</h2>
+      <form id="loginForm">
+        <label>ชื่อผู้ใช้ <input name="username" required autocomplete="username"></label>
+        <label>รหัสผ่าน <input name="password" type="password" required autocomplete="current-password"></label>
+        <button type="submit">เข้าสู่ระบบ</button>
+        <p class="msg"></p>
+      </form>
+    </section>
+
+    <!-- ── หน้าหลัก ── -->
+    <section id="view-home" class="view hidden">
+      <h2>สวัสดี <span id="helloName"></span> 👋</h2>
+      <p>นี่คือ starter — ฟีเจอร์ของโจทย์จะถูกสร้างเพิ่มเป็นหน้าใหม่ทีละหน้า</p>
+      <h3>สถานะเซิร์ฟเวอร์</h3>
+      <pre id="health" class="status">กำลังเรียก /api/health ...</pre>
+    </section>
+
+    <!-- ⬇ หน้าของฟีเจอร์ในโจทย์เพิ่มตรงนี้ เช่น <section id="view-cars" class="view hidden">...</section> -->
+
+    <!-- ── จัดการผู้ใช้ (admin) ── -->
+    <section id="view-users" class="view hidden">
+      <h2>จัดการผู้ใช้</h2>
+      <form id="userForm" class="row">
+        <input name="username" placeholder="ชื่อผู้ใช้" required>
+        <input name="password" type="password" placeholder="รหัสผ่าน (8 ตัวขึ้นไป)" required>
+        <select name="role"><option value="user">user</option><option value="admin">admin</option></select>
+        <button type="submit">เพิ่มผู้ใช้</button>
+      </form>
+      <p class="msg" id="userMsg"></p>
+      <table>
+        <thead><tr><th>ชื่อผู้ใช้</th><th>role</th><th>สร้างเมื่อ</th><th></th></tr></thead>
+        <tbody id="userRows"></tbody>
+      </table>
+    </section>
+
+    <!-- ── เปลี่ยนรหัสผ่านของตัวเอง ── -->
+    <section id="view-password" class="view hidden">
+      <h2>เปลี่ยนรหัสผ่าน</h2>
+      <form id="passwordForm">
+        <label>รหัสผ่านเดิม <input name="current_password" type="password" required autocomplete="current-password"></label>
+        <label>รหัสผ่านใหม่ (อย่างน้อย 8 ตัว) <input name="new_password" type="password" required autocomplete="new-password"></label>
+        <button type="submit">บันทึก</button>
+        <p class="msg"></p>
+      </form>
+    </section>
+  </main>
+</body>
+</html>
