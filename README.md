@@ -36,7 +36,7 @@ npx wrangler deploy    # แล้วเปิด URL ที่ได้ → ส
 |---|---|
 | `npm run dev` | รันในเครื่อง (local) ที่ http://localhost:8787 |
 | `npm run smoke` | smoke test กับ local (ต้องเปิด dev ไว้) |
-| `BASE_URL=https://... npm run smoke` | smoke test กับ production (ถ้ามี admin แล้ว เพิ่ม `SMOKE_ADMIN_USER=... SMOKE_ADMIN_PASS=...`) |
+| `npm run smoke url=https://... user=admin pass=...` | smoke test กับ production (ใช้ได้ทั้ง Git Bash และ PowerShell · ในเครื่องใช้ `npm run smoke user=admin pass=...`) |
 | `npm run trace` | ตรวจว่า AC ทุกข้อใน SPEC.md มีเคสทดสอบ |
 | `npx wrangler d1 migrations create app-db <ชื่อ>` | สร้างไฟล์ migration ใหม่ |
 | `npx wrangler d1 migrations apply app-db --local` / `--remote` | ใช้ migration กับฐานข้อมูลในเครื่อง / บนคลาวด์ |

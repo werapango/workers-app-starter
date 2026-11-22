@@ -51,7 +51,7 @@ git init
 
 **T2 การทดสอบ**
 ```
-ทำ T2: สร้าง scripts/smoke.mjs (เรียก API จริง, จำ cookie ได้แบบเบราว์เซอร์, เปลี่ยน local/production ด้วย BASE_URL,
+ทำ T2: สร้าง scripts/smoke.mjs (เรียก API จริง, จำ cookie ได้แบบเบราว์เซอร์, เลือก local/production และบอกบัญชี admin ด้วยค่า url= user= pass= ต่อท้ายคำสั่ง ให้พิมพ์ได้เหมือนกันทั้ง Git Bash และ PowerShell,
 ชื่อเคสขึ้นต้นด้วยรหัส AC, รายงาน ผ่าน/ไม่ผ่าน/ข้าม) และ scripts/trace.mjs (ตรวจว่า AC ตัวหนาทุกข้อใน SPEC.md
 มีเคสใน smoke.mjs และทุกเคสอ้าง AC ที่มีจริง, เตือนถ้า FR ใน docs/SRS.md ไม่ถูกอ้างใน SPEC.md)
 เพิ่ม npm scripts: dev, deploy, smoke, trace

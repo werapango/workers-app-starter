@@ -1,20 +1,28 @@
 // Smoke test = เรียก API จริง แล้วเช็กผลตาม acceptance criteria (AC) ใน SPEC.md
 //
-// ใช้ไฟล์เดียวกันได้ทั้งในเครื่องและบนคลาวด์:
-//   npm run smoke                                            ← ทดสอบ http://localhost:8787 (ต้องเปิด npm run dev ไว้)
-//   BASE_URL=https://my-app.xxx.workers.dev npm run smoke    ← ทดสอบ production
+// ใช้ไฟล์เดียวกันได้ทั้งในเครื่องและบนคลาวด์ (พิมพ์แบบเดียวกันได้ทั้ง Git Bash, PowerShell และ cmd):
+//   npm run smoke                                                  ← ทดสอบ http://localhost:8787 (ต้องเปิด npm run dev ไว้)
+//   npm run smoke user=admin pass=รหัสของคุณ                        ← บอกบัญชี admin ที่มีอยู่แล้ว
+//   npm run smoke url=https://my-app.xxx.workers.dev user=admin pass=รหัสของคุณ   ← ทดสอบ production
 //
 // ⚠ กติกา: ชื่อเคสต้องขึ้นต้นด้วยรหัส AC เช่น "AC-1.2 ..."  — npm run trace ใช้ชื่อนี้ตรวจว่า AC ทุกข้อมีเคสทดสอบ
 //
 // บัญชี admin ที่ smoke test ใช้:
-//   - ถ้าฐานข้อมูลยังว่าง smoke test จะสร้าง admin ให้ด้วยค่าด้านล่าง
-//   - ถ้ามี admin อยู่แล้ว ให้บอกชื่อ/รหัสของคุณ:  SMOKE_ADMIN_USER=... SMOKE_ADMIN_PASS=... npm run smoke
-//     (ไม่บอก = เคสที่ต้องใช้ admin จะถูก "ข้าม")
+//   - ถ้าฐานข้อมูลยังว่าง smoke test จะสร้าง admin ให้ด้วยค่าเริ่มต้นด้านล่าง
+//   - ถ้ามี admin อยู่แล้ว ให้บอกชื่อ/รหัสด้วย user=... pass=... (ไม่บอก = เคสที่ต้องใช้ admin จะถูก "ข้าม")
 //   - smoke test สร้างผู้ใช้ชั่วคราวชื่อขึ้นต้นด้วย smoke_ และลบทิ้งเองตอนจบ
+//   - ยังใช้ตัวแปร BASE_URL / SMOKE_ADMIN_USER / SMOKE_ADMIN_PASS แบบเดิมได้
 
-const BASE = (process.env.BASE_URL || "http://localhost:8787").replace(/\/$/, "");
-const ADMIN_USER = process.env.SMOKE_ADMIN_USER || "admin";
-const ADMIN_PASS = process.env.SMOKE_ADMIN_PASS || "admin-pass-1234";
+// อ่านค่าแบบ ชื่อ=ค่า ต่อท้ายคำสั่ง (รับ --url=... ได้ด้วย)
+const ARGS = Object.fromEntries(
+  process.argv.slice(2)
+    .map((a) => a.replace(/^--?/, "").match(/^(url|user|pass)=(.*)$/i))
+    .filter(Boolean)
+    .map((m) => [m[1].toLowerCase(), m[2]])
+);
+const BASE = (ARGS.url || process.env.BASE_URL || "http://localhost:8787").replace(/\/$/, "");
+const ADMIN_USER = ARGS.user || process.env.SMOKE_ADMIN_USER || "admin";
+const ADMIN_PASS = ARGS.pass || process.env.SMOKE_ADMIN_PASS || "admin-pass-1234";
 const RUN = Date.now().toString(36).slice(-5); // ค่าไม่ซ้ำต่อรอบ → รันซ้ำได้ไม่ชนข้อมูลเดิม
 
 const tests = [];
@@ -46,7 +54,7 @@ const admin = client();
 let adminReady = false;
 let wasEmpty = false;
 const created = []; // id ของผู้ใช้ชั่วคราว (ลบตอนจบ)
-const needAdmin = () => { if (!adminReady) skip("ไม่มีบัญชี admin (ตั้ง SMOKE_ADMIN_USER / SMOKE_ADMIN_PASS)"); };
+const needAdmin = () => { if (!adminReady) skip("ไม่มีบัญชี admin (เพิ่ม user=... pass=... ต่อท้ายคำสั่ง)"); };
 
 async function prepareAdmin() {
   const s = await admin("GET", "/api/auth/setup");
@@ -192,9 +200,9 @@ test("AC-A4.6 ลด role ของ admin คนสุดท้าย → 409", 
 
 // ───────────────────────── ตัวรัน ─────────────────────────
 
-console.log(`Smoke test → ${BASE}\n`);
+console.log(`Smoke test → ${BASE}  (admin: ${ADMIN_USER})\n`);
 try { await prepareAdmin(); } catch (err) {
-  console.log(`  ❌ ติดต่อเซิร์ฟเวอร์ไม่ได้: ${err.message}\n     → เปิด npm run dev ไว้หรือยัง? หรือ BASE_URL ถูกไหม?`);
+  console.log(`  ❌ ติดต่อเซิร์ฟเวอร์ไม่ได้: ${err.message}\n     → เปิด npm run dev ไว้หรือยัง? หรือ url=... ถูกไหม?`);
   process.exit(1);
 }
 let passed = 0, failed = 0, skipped = 0;
