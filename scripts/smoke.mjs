@@ -53,6 +53,7 @@ function client() {
 const admin = client();
 let adminReady = false;
 let wasEmpty = false;
+let adminError = ""; // มีผู้ใช้แล้วแต่ล็อกอิน admin ไม่ได้ (ชื่อ/รหัสผิด)
 const created = []; // id ของผู้ใช้ชั่วคราว (ลบตอนจบ)
 const needAdmin = () => { if (!adminReady) skip("ไม่มีบัญชี admin (เพิ่ม user=... pass=... ต่อท้ายคำสั่ง)"); };
 
@@ -66,6 +67,7 @@ async function prepareAdmin() {
   } else {
     const r = await admin("POST", "/api/auth/login", { username: ADMIN_USER, password: ADMIN_PASS });
     adminReady = r.status === 200;
+    if (!adminReady) adminError = `ล็อกอิน admin "${ADMIN_USER}" ไม่ได้ (HTTP ${r.status})`;
   }
 }
 
@@ -206,6 +208,13 @@ try { await prepareAdmin(); } catch (err) {
   process.exit(1);
 }
 let passed = 0, failed = 0, skipped = 0;
+if (adminError) {
+  // รหัสผิดต้องเห็นเป็น ❌ — ไม่ใช่แค่ "ข้าม" จนดูเหมือนผ่าน
+  failed++;
+  console.log(`  ❌ บัญชี admin: ${adminError}
+     → ตรวจ user=... pass=... ให้ตรงกับบัญชี admin ของฐานข้อมูลนี้ (ในเครื่องกับ production เป็นคนละบัญชี)
+`);
+}
 for (const t of tests) {
   try {
     await t.fn();
